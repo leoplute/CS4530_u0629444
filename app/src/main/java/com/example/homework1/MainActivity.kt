@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    // Helper function to reduce code reuse.
+    // Takes in a 'binding.*id_name*' and adds a click listener to that button
     fun createClickListener(button : android.widget.Button){
         button.setOnClickListener {
             val buttonText = button.text.toString()
