@@ -31,22 +31,6 @@ import com.example.homework2.ui.theme.Homework2Theme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-
-class MyViewModel : ViewModel() {
-
-    private val coursesMutable = MutableStateFlow(listOf<String>())
-    val coursesReadOnly : StateFlow<List<String>> = coursesMutable
-
-    fun add_course(course : String){
-        coursesMutable.value = coursesMutable.value + course
-    }
-
-    fun delete_course(course : String){
-        coursesMutable.value = coursesMutable.value - course
-    }
-
-}
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ClassAdder(myVm : MyViewModel ){
+fun ClassAdder(){
 
     val observableCourses by myVm.coursesReadOnly.collectAsState()
     var departmentInput by remember { mutableStateOf("") }
