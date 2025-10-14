@@ -3,6 +3,7 @@ package com.example.homework2
 import android.content.Context
 import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Room
@@ -16,7 +17,7 @@ abstract class MyDatabase : RoomDatabase() {
 }
 
 @Dao
-interface myDAO {
+interface MyDAO {
 
     @Insert
     suspend fun addCourse(data : CourseData)

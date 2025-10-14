@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Homework2Theme {
-                val vm:MyViewModel = viewModel()
+                val vm:MainViewModel = viewModel()
                 ClassAdder(vm)
                 }
             }
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ClassAdder(){
+fun ClassAdder(myVm : MainViewModel){
 
     val observableCourses by myVm.coursesReadOnly.collectAsState()
     var departmentInput by remember { mutableStateOf("") }
@@ -110,10 +110,12 @@ fun ClassAdder(){
 
         Button(
             onClick = {
-                // put everything in one string, when the info is needed ill deal
-                // with how to extract the individual parts
-                var classString = "$departmentInput|$courseNumberInput|$locationInput|$detailsInput"
-                myVm.add_course(classString)
+                myVm.add_course(
+                    courseNum = courseNumberInput.toInt(),
+                    dept = departmentInput,
+                    location = locationInput,
+                    details = detailsInput
+                )
                 departmentInput = ""
                 courseNumberInput = ""
                 locationInput = ""
@@ -132,15 +134,6 @@ fun ClassAdder(){
                 .fillMaxWidth()
         ) {
             items(observableCourses) { course ->
-
-                // use split + getOrNull functions to get the parts of the string
-                // I made to store the information all in one list, with each string
-                // containing department, course number, location, and details
-                val parts = course.split("|")
-                val department = parts.getOrNull(0) ?: ""
-                val courseNumber = parts.getOrNull(1) ?: ""
-                val location = parts.getOrNull(2) ?: ""
-                val details = parts.getOrNull(3) ?: ""
 
                 Card(
                     modifier = Modifier
