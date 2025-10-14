@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,11 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.homework2.ui.theme.Homework2Theme
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +34,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Homework2Theme {
-                val vm:MainViewModel = viewModel()
+                val vm:MainViewModel by viewModels{ MainViewModelProvider.Factory }
                 ClassAdder(vm)
                 }
             }
@@ -54,7 +51,7 @@ fun ClassAdder(myVm : MainViewModel){
     var locationInput by remember { mutableStateOf("") }
     var detailsInput by remember { mutableStateOf("") }
 
-    var expandedCourse by remember { mutableStateOf<String?>(null) }
+    var expandedCourse by remember { mutableStateOf<CourseData?>(null) }
 
     Column(
         modifier = Modifier
@@ -149,16 +146,16 @@ fun ClassAdder(myVm : MainViewModel){
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         // dept + course num always visible
-                        Text(text = "$department $courseNumber")
+                        Text(text = "$course.dept $course.courseNumber")
 
                         // show details only when expanded
                         if (expandedCourse == course) {
                             Text(
-                                text = "Location: $location",
+                                text = "Location: $course.location",
                                 modifier = Modifier.padding(top = 8.dp)
                             )
                             Text(
-                                text = "Details: $details",
+                                text = "Details: $course.details",
                                 modifier = Modifier.padding(top = 4.dp)
                             )
 
