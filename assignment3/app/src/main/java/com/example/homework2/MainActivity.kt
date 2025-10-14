@@ -146,16 +146,16 @@ fun ClassAdder(myVm : MainViewModel){
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         // dept + course num always visible
-                        Text(text = "$course.dept $course.courseNumber")
+                        Text(text = "${course.dept} ${course.courseNumber}")
 
                         // show details only when expanded
                         if (expandedCourse == course) {
                             Text(
-                                text = "Location: $course.location",
+                                text = "Location: ${course.location}",
                                 modifier = Modifier.padding(top = 8.dp)
                             )
                             Text(
-                                text = "Details: $course.details",
+                                text = "Details: ${course.details}",
                                 modifier = Modifier.padding(top = 4.dp)
                             )
 

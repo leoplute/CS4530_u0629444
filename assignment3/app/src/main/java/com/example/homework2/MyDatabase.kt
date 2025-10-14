@@ -20,7 +20,7 @@ interface MyDAO {
     suspend fun addCourse(data : CourseData)
 
     @Delete
-    suspend fun deleteCourse(data : CourseData) : Flow<CourseData?>
+    suspend fun deleteCourse(data : CourseData)
 
     @Query("select * from courses")
     fun allCourses() : Flow<List<CourseData>>
