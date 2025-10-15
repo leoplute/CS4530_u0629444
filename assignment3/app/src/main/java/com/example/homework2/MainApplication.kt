@@ -5,6 +5,7 @@ import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
+// application class
 class MainApplication : Application() {
 
     val scope = CoroutineScope (SupervisorJob())

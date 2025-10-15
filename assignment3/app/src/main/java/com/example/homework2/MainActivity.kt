@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Homework2Theme {
+                // use factory pattern from demo to pass to ClassAdder
                 val vm:MainViewModel by viewModels{ MainViewModelProvider.Factory }
                 ClassAdder(vm)
                 }
@@ -42,15 +43,19 @@ class MainActivity : ComponentActivity() {
     }
 
 
+// composable for whole screen
 @Composable
 fun ClassAdder(myVm : MainViewModel){
 
+    // get the courses
     val observableCourses by myVm.coursesReadOnly.collectAsState()
+    // track inputs
     var departmentInput by remember { mutableStateOf("") }
     var courseNumberInput by remember { mutableStateOf("") }
     var locationInput by remember { mutableStateOf("") }
     var detailsInput by remember { mutableStateOf("") }
 
+    // track which course is 'selected' if any
     var expandedCourse by remember { mutableStateOf<CourseData?>(null) }
 
     Column(
@@ -107,12 +112,14 @@ fun ClassAdder(myVm : MainViewModel){
 
         Button(
             onClick = {
+                // get inputs, pass to vm
                 myVm.add_course(
                     courseNum = courseNumberInput.toInt(),
                     dept = departmentInput,
                     location = locationInput,
                     details = detailsInput
                 )
+                // reset inputs
                 departmentInput = ""
                 courseNumberInput = ""
                 locationInput = ""
@@ -125,6 +132,8 @@ fun ClassAdder(myVm : MainViewModel){
             Text(text="Add course")
         }
 
+        // display courses we get from the stateflow from the
+        // vm passed into this composable
         LazyColumn(
             modifier = Modifier
                 .padding(top = 16.dp)
@@ -159,7 +168,7 @@ fun ClassAdder(myVm : MainViewModel){
                                 modifier = Modifier.padding(top = 4.dp)
                             )
 
-                            // only show the delete course button on the expanded course (currently selected course_
+                            // only show the delete course button on the expanded course (currently selected course)
                             Button(
                                 onClick = {
                                     myVm.delete_course(course)

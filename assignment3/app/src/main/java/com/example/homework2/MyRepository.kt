@@ -7,6 +7,9 @@ import kotlinx.coroutines.launch
 class MyRepository(private val scope: CoroutineScope,
                     private val dao : MyDAO){
 
+    // repo, use passed in coursedata from VM to call dao functions w/ that
+    //  ** In a launched coroutine scope
+
     val allCourses : Flow<List<CourseData>> = dao.allCourses()
 
     fun addCourse(course : CourseData){

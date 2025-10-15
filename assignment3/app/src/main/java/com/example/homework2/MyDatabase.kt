@@ -8,11 +8,13 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.flow.Flow
 
+// db class
 @Database(entities = [CourseData::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun myDao(): MyDAO
 }
 
+// dao, all I need is a way to add/delete a course, and get the courses
 @Dao
 interface MyDAO {
 

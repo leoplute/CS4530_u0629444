@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.stateIn
 
 class MainViewModel(private val repo : MyRepository) : ViewModel() {
 
+    // now, pass in repo, call repo functions from the VM
+
     val coursesReadOnly : StateFlow<List<CourseData>> = repo.allCourses
         .stateIn(
             scope = viewModelScope,
@@ -34,6 +36,8 @@ class MainViewModel(private val repo : MyRepository) : ViewModel() {
 
 }
 
+
+// factory stuff
 object MainViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
