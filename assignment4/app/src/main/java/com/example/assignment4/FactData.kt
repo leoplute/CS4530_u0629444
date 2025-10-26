@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName="facts")
 data class FactData(
-    @PrimaryKey
-    val id : String,
+    @PrimaryKey(autoGenerate = true)
+    val id : Int = 0,
     val text : String
 )

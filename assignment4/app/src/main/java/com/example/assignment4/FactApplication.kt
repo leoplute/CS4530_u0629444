@@ -17,6 +17,6 @@ class FactApplication : Application() {
         ).build()
     }
 
-    val mainRepository by lazy { FactRepository(scope, db.factDao()) }
+    val factRepository by lazy { FactRepository(scope, db.factDao()) }
 
 }
