@@ -1,5 +1,7 @@
 package com.example.assignment4
 
+import android.R.attr.fontFamily
+import android.R.attr.fontWeight
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -19,7 +22,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.assignment4.ui.theme.Assignment4Theme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
 
@@ -40,7 +49,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun FactScreen(vm : factViewModel){
 
-    val observableFacts = vm.factsReadOnly.collectAsState()
+    val facts = vm.factsReadOnly.collectAsState()
 
     Column(
         modifier = Modifier
@@ -52,16 +61,20 @@ fun FactScreen(vm : factViewModel){
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-
-        // lazy col
-
-        Button(
-            onClick = {
-                vm.getFact
+        Button( onClick = {
+                vm.add_fact()
             }
-        )
+        ) {
+            Text("Fetch a fact")
+        }
 
+        //lazy col
+        Row{
+            LazyColumn{
+                items(facts.value) { fact ->
+                    Text(text = fact.text)
+                }
+            }
+        }
     }
-
-
 }

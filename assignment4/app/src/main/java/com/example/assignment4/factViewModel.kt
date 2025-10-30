@@ -22,15 +22,6 @@ import kotlinx.serialization.json.Json
 
 class factViewModel(private val repo : FactRepository) : ViewModel(){
 
-    private val client = HttpClient(Android){
-        install(ContentNegotiation){
-            json(Json{
-                ignoreUnknownKeys = true
-                isLenient = true
-            })
-        }
-    }
-
     val factsReadOnly : StateFlow<List<FactData>> = repo.allFacts
         .stateIn(
             scope = viewModelScope,
