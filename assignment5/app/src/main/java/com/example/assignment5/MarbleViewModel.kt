@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -28,10 +29,10 @@ class MarbleViewModel(private val repo : MarbleRepository) : ViewModel(){
             MarbleState(0f, 0f)
         )
 
-    fun updateScreenSize(widthPx : Float, heightPx : Float, marblePx : Float) {
-        repo.maxWidth = widthPx
-        repo.maxHeight = heightPx
-        repo.marbSize = marblePx
+    fun updateScreenSize(width: Dp, height: Dp, marbleSize : Dp) {
+        repo.maxWidth = width.value
+        repo.maxHeight = height.value
+        repo.marbSize = marbleSize.value
     }
 
 

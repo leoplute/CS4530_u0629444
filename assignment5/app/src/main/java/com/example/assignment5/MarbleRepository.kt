@@ -34,7 +34,7 @@ class MarbleRepository(private val sensorManager : SensorManager) {
     var maxWidth = 0f
     var maxHeight = 0f
     var marbSize = 0f
-    private val scale = -80f
+    private val scale = -3f
     private val fric = 0.9f
 
     fun getMarbFlow() : Flow<GravReading> = channelFlow {
@@ -55,8 +55,8 @@ class MarbleRepository(private val sensorManager : SensorManager) {
     }
 
     fun updateMarble(gravX : Float, gravY : Float){
-        velX += scale * gravX * 0.02f
-        velY += scale * -gravY * 0.02f
+        velX += scale * gravX
+        velY += scale * -gravY
 
         var newX = marbState.value.x + velX
         var newY = marbState.value.y + velY

@@ -44,7 +44,6 @@ fun MarbleScreen(viewModel : MarbleViewModel) {
 
     val marble = viewModel.marbReading.collectAsStateWithLifecycle().value
     val marbleSize = 40.dp
-    val density = LocalDensity.current
 
     BoxWithConstraints(
         modifier = Modifier
@@ -54,20 +53,17 @@ fun MarbleScreen(viewModel : MarbleViewModel) {
         val maxW = maxWidth
         val maxH = maxHeight
 
-        LaunchedEffect(maxW, maxH, density) {
+        LaunchedEffect(maxW, maxH) {
             viewModel.updateScreenSize(
-                widthPx = with(density) {maxW.toPx()},
-                heightPx = with(density) {maxH.toPx() },
-                marblePx = with(density) {marbleSize.toPx()}
+                width = maxW,
+                height = maxH,
+                marbleSize = marbleSize
             )
         }
 
         Box(
             modifier = Modifier
-                .offset(
-                    x = with(density) {marble.x.toDp()},
-                    y = with(density) {marble.y.toDp()}
-                )
+                .offset(x = marble.x.dp, y = marble.y.dp)
                 .size(marbleSize)
                 .background(Color.Blue, CircleShape)
         )
