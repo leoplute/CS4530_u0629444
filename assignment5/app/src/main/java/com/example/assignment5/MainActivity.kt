@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MarbleScreen(viewModel : MarbleViewModel) {
 
+    //collect marble state
     val marble = viewModel.marbReading.collectAsStateWithLifecycle().value
     val marbleSize = 40.dp
 
@@ -53,6 +54,7 @@ fun MarbleScreen(viewModel : MarbleViewModel) {
         val maxW = maxWidth
         val maxH = maxHeight
 
+        //when layout size changes, update vm w/ new numbers
         LaunchedEffect(maxW, maxH) {
             viewModel.updateScreenSize(
                 width = maxW,
@@ -61,6 +63,7 @@ fun MarbleScreen(viewModel : MarbleViewModel) {
             )
         }
 
+        //draw a blue circle for a marble at the stored x,y pos
         Box(
             modifier = Modifier
                 .offset(x = marble.x.dp, y = marble.y.dp)

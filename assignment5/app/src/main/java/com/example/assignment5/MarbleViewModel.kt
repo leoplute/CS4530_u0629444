@@ -18,9 +18,12 @@ import kotlinx.coroutines.flow.onEach
 
 class MarbleViewModel(private val repo : MarbleRepository) : ViewModel(){
 
+    //flow of marble positions updated by sensors
     val marbReading = repo.getMarbFlow()
         .map { grav ->
+            //update marble pos in repo using grav data
             repo.updateMarble(grav.x, grav.y)
+            //return latest marble pos state
             repo.marbState.value
         }
         .stateIn(
@@ -29,6 +32,7 @@ class MarbleViewModel(private val repo : MarbleRepository) : ViewModel(){
             MarbleState(0f, 0f)
         )
 
+    //update screen size in dp
     fun updateScreenSize(width: Dp, height: Dp, marbleSize : Dp) {
         repo.maxWidth = width.value
         repo.maxHeight = height.value

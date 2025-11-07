@@ -15,7 +15,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 
-//marble pos
+//marble pos on screen
 data class MarbleState(val x : Float, val y : Float)
 
 //sensor reading
@@ -23,12 +23,15 @@ data class GravReading(val x : Float, val y : Float)
 
 class MarbleRepository(private val sensorManager : SensorManager) {
 
+    //grav sensor if available, otherwise accelerometer
     private val gravSensor =
         sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
             ?: sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
+    //holds current marble position
     val marbState = MutableStateFlow(MarbleState(0f,0f))
 
+    //motion + physics variables
     private var velX = 0f
     private var velY = 0f
     var maxWidth = 0f
@@ -37,6 +40,7 @@ class MarbleRepository(private val sensorManager : SensorManager) {
     private val scale = -3f
     private val fric = 0.9f
 
+    // return a flow of grav readings from the sensor
     fun getMarbFlow() : Flow<GravReading> = channelFlow {
         if(gravSensor == null){
             return@channelFlow
@@ -54,18 +58,23 @@ class MarbleRepository(private val sensorManager : SensorManager) {
         awaitClose { sensorManager.unregisterListener(listener) }
     }
 
+    //physics for updating the marble pos
     fun updateMarble(gravX : Float, gravY : Float){
+        //apply acceleration based on tilt
         velX += scale * gravX
         velY += scale * -gravY
 
+        //update marbles pos
         var newX = marbState.value.x + velX
         var newY = marbState.value.y + velY
 
+        //make sure its within screen
         newX = max(0f, min(newX, maxWidth - marbSize))
         newY = max(0f, min(newY, maxHeight - marbSize))
 
+        //update state
         marbState.update {MarbleState(newX,newY)}
-
+        //apply friction
         velX *= fric
         velY *= fric
     }
